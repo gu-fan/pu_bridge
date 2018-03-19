@@ -1,0 +1,29 @@
+<html lang="en">
+<head>
+    <title> BRIDGE TEST </title>
+    <meta name="viewport" content="width=800, maximum-scale=1">
+    <meta charset="UTF-8">
+    <script src="./pula_bridge.js"></script>
+</head>
+<body>
+    <script>
+
+        window.pp.ready(function(bridge){
+            console.log(window.pp.is_ios && window.pp.is_webview)
+            bridge.registerHandler('sendImageData', function(data, responseCallback) {
+                console.log('ObjC called sendImageData with')
+                console.log(data)
+                var responseData = { 'Javascript Says':'send Back Image Data!' }
+                console.log('JS responding with')
+                console.log(responseData)
+                responseCallback(responseData)
+
+                bridge.callHandler('sendImageBase64', {type: 'png', raw:imgdata}, function(response) {
+                      console.log('JS got response')
+                      console.log(response)
+                })
+            })
+        })
+
+    </script>
+</body>
