@@ -6,21 +6,37 @@
     <script src="./pula_bridge.js"></script>
 </head>
 <body>
+	<div id='buttons'></div> <div id='log'></div>
+    
     <script>
+		var uniqueId = 1
+		function log(message, data) {
+			var log = document.getElementById('log')
+			var el = document.createElement('div')
+			el.className = 'logLine'
+			el.innerHTML = uniqueId++ + '. ' + message + ':<br/>' + JSON.stringify(data)
+		{ log.appendChild(el) }
+		}
 
+        log("HELLO", 1.05)
+        log("UA", window.pp.ua)
+        log("is ios", window.pp.is_ios)
+        log("is webview", window.pp.is_webview)
+        log("ios & WEBVIEW", window.pp.is_ios && window.pp.is_webview)
         window.pp.ready(function(bridge){
-            console.log(window.pp.is_ios && window.pp.is_webview)
+            log("bridge ready", true)
+            log("bridge", bridge.callHandler)
             bridge.registerHandler('sendImageData', function(data, responseCallback) {
-                console.log('ObjC called sendImageData with')
-                console.log(data)
+                log('ObjC called sendImageData with', data)
+
                 var responseData = { 'Javascript Says':'send Back Image Data!' }
-                console.log('JS responding with')
-                console.log(responseData)
+                log('JS responding with')
+                log(responseData)
                 responseCallback(responseData)
 
-                bridge.callHandler('sendImageBase64', {type: 'png', raw:imgdata}, function(response) {
-                      console.log('JS got response')
-                      console.log(response)
+                bridge.callHandler('sendImageBase64', {type: 'png', raw:'TEST'}, function(response) {
+                      log('JS got response')
+                      log(response)
                 })
             })
         })

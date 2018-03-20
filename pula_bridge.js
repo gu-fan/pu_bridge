@@ -21,10 +21,11 @@
   window.pp = window.PupuBridge = { 
       is_webview: is_webview,
       is_ios: is_ios,
+      ua: ua,
       ready : function(fn) {
         console.log("ready")
         if (is_ios && is_webview) {
-            loadWebViewBridge()
+            loadWebViewBridge(fn)
         }
       }
   }
